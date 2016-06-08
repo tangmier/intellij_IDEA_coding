@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--该代码存在问题-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地理位置Demo</title>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=5tgs3qIxXN3K8kqEcisXdGzG" type="text/javascript"></script>
+    <script>
+        window.onload=function(){
+            var oInput=document.getElementById('input1');
+            oInput.onclick=function(){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var x=position.coords.longitude;
+                    var y=position.coords.latitude;
+
+                    var map=new BMap.Map("div1");
+                    var pt=new BMap.Point(x,y);
+                    map.centerAndZoom(pt,15);
+                    map.enableScrollWheelZoom(true);
+                    var marker1=new BMap.Marker(pt);
+                    map.addOverlay(marker1);
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="请求" id="input1"/>
+<div id="div1"></div>
+</body>
+</html>

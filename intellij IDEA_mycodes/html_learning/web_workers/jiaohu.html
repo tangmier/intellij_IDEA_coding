@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--该程序运行起来有问题还-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>与线程进行交互示例</title>
+    <script type="text/javascript">
+        var intArray=new Array(10);
+        var intStr="";
+        for(var i=0;i<100;i++)
+        {
+            intArray=parseInt(Math.random()*100);
+            if(i!=0)
+                intStr+=";";
+            intStr+=intArray[i];
+        }
+        var worker=new Worker("script.js");
+        worker.postMessage(intStr);
+        worker.onmessage= function (event) {
+            if(event.data!="")
+            {
+                var j;
+                var k;
+                var tr;
+                var td;
+                var intArray=event.data.split(";");
+                var table=document.getElementById("table");
+                for(var i=0;i<intArray.length;i++)
+                {
+                    j=parseInt(i/10,0);
+                    k=i%10;
+                    if(k==0)
+                    {
+                        tr=document.getElementById("tr");
+                        tr.id="tr"+j;
+                        table.appendChild(tr);
+                    }
+                    else
+                    {
+                        tr=document.getElementById("tr"+j);
+                    }
+                    td=document.getElementById("td");
+                    tr.appendChild(td);
+                    td.innerHTML=intArray[j*10+k];
+                    td.style.backgroundColor="blue";
+                    td.style.color="white";
+                    td.width="30";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>从随机生成的数字中抽取3的倍数并显示示例</h1>
+<table id="table"></table>
+</body>
+</html>

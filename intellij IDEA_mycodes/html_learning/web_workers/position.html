@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p id="geo_loc"><p>
+
+    <script>
+
+       function getElem(id)
+       {
+           return typeof id === 'string' ? document.getElementById(id) : id;
+       }
+
+       function show_it(lat, lon) {
+          var str = '您当前的位置，纬度：' + lat + '，经度：' + lon;
+           getElem('geo_loc').innerHTML = str;
+           }
+
+        if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition(function(position) {
+                         show_it(position.coords.latitude, position.coords.longitude);
+                  }, function(err) {
+                       getElem('geo_loc').innerHTML = err.code + "\n" + err.message;
+                   });
+            } else {
+              getElem('geo_loc').innerHTML = "您当前使用的浏览器不支持Geolocation服务";
+            }
+    </script>
+</body>
+</html>
